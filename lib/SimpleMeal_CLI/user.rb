@@ -46,7 +46,7 @@ class User
     def self.access_favorites
       if self.favorites.empty?
           puts ""
-          puts "Sorry #{self.name}, you have not saved any recipe so far!"
+          puts "Sorry #{self.name}, you have not saved any recipes so far!"
       else
           puts ""
           puts "Here are your favorites! Great choices, #{self.name}! :)"

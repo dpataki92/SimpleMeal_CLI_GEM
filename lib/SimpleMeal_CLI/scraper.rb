@@ -21,14 +21,14 @@ class Scraper
 
     end
 
-    # scrapes data from index page and creates recipe objects from the breafast - lunch - dinner pages using scrape_recipes_from_course_page method
+    # scrapes data from index page and creates recipe objects from the breafast - lunch - dinner pages using the scrape_recipes_from_course_page method
     def self.scrape_recipes_from_index_page
         doc = Nokogiri::HTML(open("https://www.simplyrecipes.com/index/"))
         links = doc.css("a").select {|a| a.text.tr("0-9", "") == "Breakfast and Brunch " || a.text.tr("0-9", "") == "Lunch " || a.text.tr("0-9", "") == "Dinner "}.collect {|n| n["href"]}
         links.each {|link| self.scrape_recipes_from_course_page(link)}
     end
 
-    # scrapes additional data from a specific recipe's page and includes data in the recipe object
+    # scrapes additional data from a specific recipe's page and includes that data in the recipe object
     def self.scrape_extra_data(recipe)
         doc = Nokogiri::HTML(open("#{recipe.url}"))
         recipe.cook_time = doc.css(".cooktime").text.strip

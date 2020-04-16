@@ -21,7 +21,7 @@ class CLI
         puts "What's your name?"
         User.name = gets.strip
         puts ""
-        puts "Hello #{User.name}! With SimpleMeal, you can:"
+        puts "Hello #{User.name}, with SimpleMeal, you can:"
         puts ""
         puts "  -check out our most popular breakfast, lunch and dinner recipes"
         puts "  -search for vegetarian and gluten-free options"
@@ -32,7 +32,7 @@ class CLI
         input = gets.strip.downcase
         if input == 'y'
             puts ""
-            puts "Cool! We got you the most popular simple recipes for #{Time.new.strftime("%d/%m/%Y")}"
+            puts "Cool! We got you the most popular simple recipes for #{Time.new.strftime("%d of %B, %Y")}"
             puts ""
         else
             puts ""
