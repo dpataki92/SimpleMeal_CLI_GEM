@@ -1,5 +1,5 @@
 require "bundler/setup"
-require "SimpleMeal_CLI_GEM"
+require "SimpleMeal_CLI"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

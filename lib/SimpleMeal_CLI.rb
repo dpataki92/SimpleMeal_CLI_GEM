@@ -1,0 +1,8 @@
+require "open-uri"
+require "nokogiri"
+require "pry"
+require_relative "./SimpleMeal_CLI/version"
+require_relative "./SimpleMeal_CLI/cli"
+require_relative "./SimpleMeal_CLI/recipe"
+require_relative "./SimpleMeal_CLI/scraper"
+require_relative "./SimpleMeal_CLI/user"

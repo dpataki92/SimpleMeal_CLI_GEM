@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+
+require "./lib/SimpleMeal_CLI.rb"
+CLI.call
