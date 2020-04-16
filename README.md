@@ -1,28 +1,20 @@
-# SimpleMealCLI
+# SimpleMeal CLI
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/SimpleMeal_CLI`. To experiment with that code, run `bin/console` for an interactive prompt.
+Welcome to the SimpleMeal CLI! This CLI allows users to quickly find simple yet delicious and popular recipes. SimpleMeal gets the most popular breakfast, lunch and dinner recipes from the simplerecipes.com website and allows the users to list and filter them based on certain conditions. Users can save their favorite recipes and also ask the CLI for recipe recommendations. 
 
-TODO: Delete this and the text above, and describe your gem
+In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/SimpleMeal_CLI`. To experiment with that code, run `bin/console` for an interactive prompt.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+git clone https://github.com/dpataki92/SimpleMeal_CLI_GEM
 
-```ruby
-gem 'SimpleMeal_CLI'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install SimpleMeal_CLI
+cd SimpleMeal_CLI_GEM
 
 ## Usage
 
-TODO: Write usage instructions here
+Use the command below to run the program:
+
+./bin/simplemeal
 
 ## Development
 
@@ -32,7 +24,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/SimpleMeal_CLI. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/dpataki92/SimpleMeal_CLI_GEM. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
