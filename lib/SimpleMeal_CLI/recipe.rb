@@ -1,62 +1,48 @@
 class Recipe
     # readers and writers for the recipe instances
-    attr_accessor :name, :diet, :cook_time, :ingredients, :directions, :url
+    attr_accessor :name, :diet, :cook_time, :ingredients, :directions, :url, :course
 
-    # stores the recipe objects based on course type
-    @@all = {
-        breakfast: nil,
-        lunch: nil,
-        dinner: nil
-    }
+    # stores the recipe objects
+    @@all = []
 
+    # stores recipe objects checked but not saved by the user 
     @@lookups = []
 
-    # custom readers for all/breakfast/lunch/dinner recipes
+    # reader for all recipes
     def self.all
         @@all
     end
 
-    def self.return_all
-        self.all.values.flatten
-    end
-
-    def self.all_breakfast
-        self.all[:breakfast]
-    end
-
-    def self.all_lunch
-        self.all[:lunch]
-    end
-
-    def self.all_dinner
-        self.all[:dinner]
+    # save recipe object to all array
+    def self.save(obj)
+        @@all << obj 
     end
 
     # prints out lists in a numbered order irrespective of whether the input is a simple array or a method that returns an array
-    def self.print_list(list_return)
+    def self.print_list(list)
         puts ""
-        if list_return.instance_of? Array
-            list_return.each_with_index {|el, i| puts "#{i+1}. #{el.name}"}
-        else
-        method(list_return).call.each_with_index {|el, i| puts "#{i+1}. #{el.name}"}
+        list.each_with_index {|el, i| puts "#{i+1}. #{el.name}"}
+    end
+
+    def self.find_by_course(course)
+        if course == "all"
+            self.all
+        elsif course == "breakfast"
+            self.all.select {|recipe| recipe.course == "breakfast"}
+        elsif course == "lunch"
+            self.all.select {|recipe| recipe.course == "lunch"}
+        elsif course == "dinner"
+            self.all.select {|recipe| recipe.course == "dinner"}
         end
     end
 
-    # finder method for selecting only vegetarian or only glute-free emals from an array /method that returns an array
-    def self.find_by_diet(list_return, input)
-        if list_return.instance_of? Array
-            if input == "v"
-                list_return.select {|dish| dish.diet.include?("vegetarian")}
-            elsif input == "g"
-                list_return.select {|dish| dish.diet.include?("gluten-free")}
-            end
-        else
-            if input == "v"
-                method(list_return).call.select {|dish| dish.diet.include?("vegetarian")}
-            elsif input == "g"
-                method(list_return).call.select {|dish| dish.diet.include?("gluten-free")}
-            end
-        end
+    # finder method for selecting only vegetarian or only glute-free meals from an array / method that returns an array
+    def self.find_by_diet(list, input)
+        if input == "v"
+            list.select {|dish| dish.diet.include?("vegetarian")}
+        elsif input == "g"
+            list.select {|dish| dish.diet.include?("gluten-free")}
+        end  
     end
 
     # outputs data of a recipe instance in a formatted way
@@ -80,24 +66,14 @@ class Recipe
     end
 
     # returns a recipe in a formatted way based on number input and saves it to lookups if it hasn't already been saved
-    def self.return_recipe(list_return, input)
-        if list_return.instance_of? Array
-            obj = list_return[input.to_i - 1]
+    def self.return_recipe(list, input)
+            obj = list[input.to_i - 1]
             if @@lookups.include?(obj)
                 self.format_recipe(@@lookups[@@lookups.index(obj)])
             else
                 self.format_recipe(Scraper.scrape_extra_data(obj))
                 @@lookups << obj
             end
-        else
-            obj = method(list_return).call[input.to_i - 1]
-            if @@lookups.include?(obj)
-                self.format_recipe(@@lookups[@@lookups.index(obj)])
-            else
-                self.format_recipe(Scraper.scrape_extra_data(obj))
-                @@lookups << obj
-            end
-        end
     end
 
     # handles logic for options after a list is filtered based on diet - if no meals from the selected diet, inform user - otherwise print filtered list and return selected recipe
@@ -141,7 +117,7 @@ class Recipe
 
         if input == "v" || input == "g"
             self.select_from_filtered_list(course_list, input)
-        elsif input.count("a-z") == 0 && input.to_i <= course_list.length
+        elsif input.count("a-zA-Z") == 0 && input.to_i <= course_list.length
             recipe = course_list[input.to_i-1] 
             self.return_recipe(course_list, input)
         elsif input == "m"
@@ -185,14 +161,13 @@ class Recipe
 
     # handles full logic of selecting a specific recipe: creating list based on course type - filter list based on diet - return recipe and save it if user chooses to
     def self.select_recipe(course_list)
-        course_list = method(course_list).call if !course_list.instance_of? Array
         self.print_list(course_list)
         self.filter_and_select(course_list)
     end
 
     # randomly selects a meal from all recipes and returns the recipe
     def self.meal_of_the_day
-        arr = self.return_all
+        arr = self.all
         i = rand(0...arr.length)
         puts ""
         puts "We recommend you to try out this recipe! Have fun!"
@@ -202,9 +177,9 @@ class Recipe
 
     # generates a daily menu with breakfast, lunch and dinner recipes
     def self.menu_of_the_day
-        breakfast = self.all[:breakfast][rand(0...self.all[:breakfast].length)]
-        lunch = self.all[:lunch][rand(0...self.all[:lunch].length)]
-        dinner = self.all[:dinner][rand(0...self.all[:dinner].length)]
+        breakfast = self.find_by_course("breakfast").sample(1)[0]
+        lunch = self.find_by_course("lunch").sample(1)[0]
+        dinner = self.find_by_course("dinner").sample(1)[0]
 
         menu = [breakfast, lunch, dinner]
 

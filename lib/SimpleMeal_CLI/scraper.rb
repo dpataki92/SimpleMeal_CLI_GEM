@@ -8,15 +8,9 @@ class Scraper
             recipe.name = node.css(".grd-title-link a span").text.strip
             recipe.diet = node.css(".sum-item.sum-food-type").text.downcase.strip
             recipe.url = node.css(".grd-title-link a")[0]["href"]
+            if link.include?("breakfast") then recipe.course = "breakfast" elsif link.include?("lunch") then recipe.course = "lunch" elsif link.include?("dinner") then recipe.course = "dinner" end
+            Recipe.save(recipe)
             recipe
-        end
-
-        if link.include?("breakfast")
-            Recipe.all[:breakfast] = arr
-        elsif link.include?("lunch")
-            Recipe.all[:lunch] = arr
-        elsif link.include?("dinner")
-            Recipe.all[:dinner] = arr
         end
 
     end

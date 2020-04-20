@@ -62,13 +62,17 @@ class CLI
             input = gets.strip.downcase
             case input
             when "1"
-            Recipe.select_recipe(:return_all)
+            course_list = Recipe.find_by_course("all")
+            Recipe.select_recipe(course_list)
             when "2"
-            Recipe.select_recipe(:all_breakfast)
+            course_list = Recipe.find_by_course("breakfast")
+            Recipe.select_recipe(course_list)
             when "3"
-            Recipe.select_recipe(:all_lunch)
+            course_list = Recipe.find_by_course("lunch")
+            Recipe.select_recipe(course_list)
             when "4"
-            Recipe.select_recipe(:all_dinner)
+            course_list = Recipe.find_by_course("dinner")
+            Recipe.select_recipe(course_list)
             when "5"
             User.access_favorites
             when "6"
