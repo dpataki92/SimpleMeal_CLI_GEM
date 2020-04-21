@@ -13,12 +13,12 @@ class Recipe
         @@all
     end
 
-    # save basic recipe objects to all array
+    # saves basic recipe object to all array
     def self.save(obj)
         @@all << obj 
     end
 
-    # prints out lists in a numbered order irrespective of whether the input is a simple array or a method that returns an array
+    # prints out lists in a numbered order
     def self.print_list(list)
         puts ""
         list.each_with_index {|el, i| puts "#{i+1}. #{el.name}"}
@@ -37,7 +37,7 @@ class Recipe
         end
     end
 
-    # finder method for selecting only vegetarian or only glute-free meals from an array / method that returns an array
+    # finder method for selecting only vegetarian or only glute-free meals from an array
     def self.find_by_diet(list, input)
         if input == "v"
             list.select {|dish| dish.diet.include?("vegetarian")}
