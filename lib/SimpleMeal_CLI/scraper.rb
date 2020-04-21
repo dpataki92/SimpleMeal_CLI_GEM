@@ -1,6 +1,6 @@
 class Scraper
 
-    # scrapes data from the given course's page and creates recipe objects with basic attributes
+    # scrapes data from the given course's page and creates/saves recipe objects with basic attributes
     def self.scrape_recipes_from_course_page(link)
         doc = Nokogiri::HTML(open("#{link}"))
         arr = doc.css(".grd-tile-detail").each do |node|

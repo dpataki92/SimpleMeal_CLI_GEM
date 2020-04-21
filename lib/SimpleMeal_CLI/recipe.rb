@@ -24,6 +24,7 @@ class Recipe
         list.each_with_index {|el, i| puts "#{i+1}. #{el.name}"}
     end
 
+    # finder method for selecting recipes from the all array based on their course category
     def self.find_by_course(course)
         if course == "all"
             self.all
@@ -76,6 +77,33 @@ class Recipe
             end
     end
 
+    # handles logic for options after listing recipes based on course type: filter them or return - if filtered, select recipe or return - if selected, save it or return
+    def self.filter_and_select(course_list)
+        puts ""
+        puts "- Type the number of the recipe you want to check out!"
+        puts "- Type 'v' if you want to see only the vegetarian options!"
+        puts "- Type 'g' if you want to see only the gluten-free options!"
+        puts "- Type 'm' if you want to return to the menu!"
+        
+        input = gets.strip
+
+        if input == "v" || input == "g"
+            self.select_from_filtered_list(course_list, input)
+        elsif input.count("a-zA-Z") == 0 && input.to_i <= course_list.length
+            recipe = course_list[input.to_i-1] 
+            self.return_recipe(course_list, input)
+            self.save_or_return(recipe, course_list)
+        elsif input == "m"
+            CLI.list_options
+        else
+            puts ""
+            puts "Please provide a valid input!"
+            sleep(2)
+            self.select_recipe(course_list)
+        end
+
+    end
+
     # handles logic for options after a list is filtered based on diet - if no meals from the selected diet, inform user - otherwise print filtered list and return selected recipe
     def self.select_from_filtered_list(course_list, input)
         diet_filter = self.find_by_diet(course_list, input)
@@ -102,36 +130,6 @@ class Recipe
                     self.select_from_filtered_list(course_list, input)
                 end
             end
-    end
-
-    # handles logic for options after listing recipes based on course type: filter them or return - if filtered, select recipe or return - if selected, save it or return
-    def self.filter_and_select(course_list)
-        puts ""
-        puts "- Type the number of the recipe you want to check out!"
-        puts "- Type 'v' if you want to see only the vegetarian options!"
-        puts "- Type 'g' if you want to see only the gluten-free options!"
-        puts "- Type 'm' if you want to return to the menu!"
-        
-        input = gets.strip
-        recipe = nil
-
-        if input == "v" || input == "g"
-            self.select_from_filtered_list(course_list, input)
-        elsif input.count("a-zA-Z") == 0 && input.to_i <= course_list.length
-            recipe = course_list[input.to_i-1] 
-            self.return_recipe(course_list, input)
-        elsif input == "m"
-            CLI.list_options
-        else
-            puts ""
-            puts "Please provide a valid input!"
-            sleep(2)
-            self.select_recipe(course_list)
-        end
-
-        if recipe
-            self.save_or_return(recipe, course_list)
-        end
     end
 
     # saves the recipe or return to the previous list or main menu
