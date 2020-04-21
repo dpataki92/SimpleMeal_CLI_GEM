@@ -14,7 +14,7 @@ class User
  
     # based on input, deletes recipes from favorites or clear the whole array
     def self.delete_favorites
-       Recipe.print_list(self.favorites)
+       Recipe.print_list(self.favorites.sort_by{|el| el.name})
        puts ""
        
        puts "- Type the number of the meal you want to delete"
@@ -50,7 +50,7 @@ class User
       else
           puts ""
           puts "Here are your favorites! Great choices, #{self.name}! :)"
-          Recipe.select_recipe(self.favorites)
+          Recipe.select_recipe(self.favorites.sort_by{|el| el.name})
           puts ""
           puts "Do you want to keep your favorites?(y/n)"
           input = gets.strip
