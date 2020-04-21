@@ -13,7 +13,7 @@ class Recipe
         @@all
     end
 
-    # save recipe object to all array
+    # save basic recipe objects to all array
     def self.save(obj)
         @@all << obj 
     end
