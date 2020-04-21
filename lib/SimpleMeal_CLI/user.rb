@@ -28,7 +28,7 @@ class User
           sleep(2)
           puts ""
           CLI.list_options
-       elsif response.count("a-zA-Z") == 0 && response.to_i <= self.favorites.length
+       elsif response.match?(/\A-?\d+\Z/) && response.to_i <= self.favorites.length
           puts ""
           puts "The meal '#{User.favorites[response.to_i-1].name}' has been removed from favorites!"
           puts ""

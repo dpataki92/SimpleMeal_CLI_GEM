@@ -9,7 +9,7 @@ class Scraper
             recipe.diet = node.css(".sum-item.sum-food-type").text.downcase.strip
             recipe.url = node.css(".grd-title-link a")[0]["href"]
             if link.include?("breakfast") then recipe.course = "breakfast" elsif link.include?("lunch") then recipe.course = "lunch" elsif link.include?("dinner") then recipe.course = "dinner" end
-            Recipe.save(recipe)
+            recipe.save
             end
     end
 

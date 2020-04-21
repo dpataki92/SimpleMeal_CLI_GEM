@@ -10,18 +10,18 @@ class Recipe
 
     # reader for all recipes
     def self.all
-        @@all
+        @@all.sort_by {|el| el.name}
     end
 
     # saves basic recipe object to all array
-    def self.save(obj)
-        @@all << obj 
+    def save
+        @@all << self 
     end
 
     # prints out lists in a numbered order
     def self.print_list(list)
         puts ""
-        list.each_with_index {|el, i| puts "#{i+1}. #{el.name}"}
+        list.each.with_index(1) {|recipe, i| puts "#{i}. #{recipe.name}"}
     end
 
     # finder method for selecting recipes from the all array based on their course category
@@ -89,7 +89,7 @@ class Recipe
 
         if input == "v" || input == "g"
             self.select_from_filtered_list(course_list, input)
-        elsif input.count("a-zA-Z") == 0 && input.to_i <= course_list.length
+        elsif input.match?(/\A-?\d+\Z/) && input.to_i <= course_list.length
             recipe = course_list[input.to_i-1] 
             self.return_recipe(course_list, input)
             self.save_or_return(recipe, course_list)
@@ -120,7 +120,7 @@ class Recipe
                 response = gets.strip
                 if response == "m"
                     CLI.list_options
-                elsif response.count("a-zA-Z") == 0 && response.to_i <= diet_filter.length
+                elsif response.match?(/\A-?\d+\Z/) && response.to_i <= diet_filter.length
                     self.return_recipe(diet_filter, response)
                     self.save_or_return(diet_filter[response.to_i-1], diet_filter)
                 else
